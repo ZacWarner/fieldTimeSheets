@@ -62,11 +62,12 @@ function BottomTabNavigator() {
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
       }}>
+      {/* this is the topbar */}
       <BottomTab.Screen
         name="TabOne"
         component={TabOneScreen}
         options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
-          title: 'Tab One',
+          title: 'Timesheets',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           headerRight: () => (
             <Pressable
