@@ -1,14 +1,57 @@
 import { StyleSheet } from 'react-native';
 
-import EditScreenInfo from '../components/EditScreenInfo';
+import { List } from 'react-native-paper';
 import { Text, View } from '../components/Themed';
+import { RootTabScreenProps, WorkAuth } from '../types';
+import DateBar from '../components/DateBar';
+import WorkAuthListItem from '../components/WorkAuthListItem';
+import { useState } from 'react';
 
-export default function TabTwoScreen() {
+export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
+
+  // todo: make this an api call
+  const [workAuthListItems, setWorkAuthListItems] = useState<WorkAuth[]>([{
+    id: '1GEN100100',
+    name: 'East Wall',
+    contactName: 'Jack @ another place',
+    contactId: '123',
+    location: 'Anaheim',
+    chainman1: "Jim",
+    chainman2: "joe",
+    priority: 1
+  },
+  {
+    id: '1GDN110120',
+    name: 'Curtain Wall Detail',
+    contactName: 'Joe @ Hathaway Dinwiddie',
+    contactId: '321',
+    location: 'Anaheim',
+    chainman1: "Jim",
+    chainman2: "joe",
+    priority: 2
+  }])
+
+  const handleEditWorkAuthItem = (workAuth: WorkAuth, i: number) => {
+    const newWorkListItems = [...workAuthListItems];
+    newWorkListItems[i] = workAuth;
+    setWorkAuthListItems(newWorkListItems)
+  };
+
+  const openEdit = (workAuth: WorkAuth | undefined, i: number | undefined) => navigation.navigate("EditAuth", { workAuth, handleEditWorkAuthItem, i });
+
+
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
+      <DateBar />
+      <Text style={styles.title}>Field Work Authorizations</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/TabTwoScreen.tsx" />
+      <List.Section title='Work Authorizations' style={styles.list}>
+        {workAuthListItems.map((workAuth, i) => {
+          console.log(workAuth);
+          return <WorkAuthListItem workAuth={workAuth} key={workAuth.id} openEdit={openEdit} i={i} />
+        })}
+      </List.Section>
     </View>
   );
 }
@@ -18,6 +61,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    width: '100%'
+  },
+  scrollView: {
+    width: '100%',
   },
   title: {
     fontSize: 20,
@@ -28,4 +75,7 @@ const styles = StyleSheet.create({
     height: 1,
     width: '80%',
   },
+  list: {
+    width: '80%'
+  }
 });
