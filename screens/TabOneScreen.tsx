@@ -1,14 +1,22 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, DeviceEventEmitter } from 'react-native';
 
 import { List } from 'react-native-paper';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps, WorkAuth } from '../types';
 import DateBar from '../components/DateBar';
 import WorkAuthListItem from '../components/WorkAuthListItem';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
 
+import { useAppSelector, useAppDispatch } from '../hooks';
+import { addWorkAuth } from '../features/workAuth/workAuth';
+
+
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
+
+  const reduxWorkAuth = useAppSelector(state => state.workAuthList.value);
+  const dispatch = useAppDispatch();
+
 
 
   // todo: make this an api call
@@ -38,6 +46,17 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
     newWorkListItems[i] = workAuth;
     setWorkAuthListItems(newWorkListItems)
   }
+
+  useEffect(() => {
+    console.log(reduxWorkAuth);
+    if (reduxWorkAuth.length === 0) {
+      console.log("adding items")
+      dispatch(addWorkAuth(workAuthListItems))
+    }
+  })
+
+  console.log('redux work list items: ', reduxWorkAuth);
+
 
   const openEdit = (workAuth: WorkAuth | undefined, i: number | undefined) => navigation.navigate("EditAuth", { workAuth, handleEditWorkAuthItem, i });
 
