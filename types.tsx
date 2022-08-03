@@ -36,8 +36,12 @@ export type RootTabScreenProps<Screen extends keyof RootTabParamList> = Composit
 >;
 
 export type WorkAuth = {
-  id: string,
+  projId: string,
+  taskId: string,
+  deptId: string,
+  functId: string,
   name: string,
+  hours: number,
   contactName: string,
   contactId: string,
   location: string,

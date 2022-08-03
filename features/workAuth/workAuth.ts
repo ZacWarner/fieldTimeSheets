@@ -19,6 +19,9 @@ export const workAuthListSlice = createSlice({
     reducers: {
         addWorkAuth: (state, action: PayloadAction<WorkAuth[]>) => {
             state.value = action.payload;
+        },
+        edditWorkAuth: (state, action: PayloadAction<WorkAuth[]>) => {
+
         }
     }
 });
